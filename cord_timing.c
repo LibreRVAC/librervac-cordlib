@@ -20,4 +20,6 @@
 
 #include "cord_timing.h"
 
-int xxx = 0; // TODO
+#ifdef __SDCC
+int xxx = 0; // SDCC does not like empty files
+#endif
