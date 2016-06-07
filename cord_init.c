@@ -41,7 +41,7 @@ float cord_get_main_loop_frequency() {
 static void main_loop_frequency_step() {
     static uint_fast32_t cur_steps_per_second = 0;
     static uint_fast32_t then = 0;
-    uint_fast32_t now = hw_get_milliseconds();
+    uint_fast32_t now = hw_get_time_ms();
     if (now % 1000 == 0 && now != then) {
         steps_per_second = cur_steps_per_second;
         cur_steps_per_second = 0;
@@ -55,12 +55,12 @@ static void bandwidth_step() {
     static uint_fast32_t total_bytes_in_then = 0;
     static uint_fast32_t total_bytes_out_then = 0;
 #ifndef __SDCC
-    uint_fast32_t now = hw_get_milliseconds();
+    uint_fast32_t now = hw_get_time_ms();
 #else
     // this function is overloaded with 32-bit ints, so we have
     // to preallocate some
     static uint_fast32_t now;
-    now = hw_get_milliseconds();
+    now = hw_get_time_ms();
     // TODO we are wasting 4 bytes of RAM because of this
 #endif
     if (now % 1000 == 0 && now != then) {
@@ -71,7 +71,7 @@ static void bandwidth_step() {
         uint_fast32_t out_diff = total_bytes_out_now - total_bytes_out_then;
 
         cord_write_packet(100, JSON({"c":"info","bandwidth-in":%d,"bandwidth-out":%d})
-                          , in_diff, out_diff);
+        , in_diff, out_diff);
         then = now;
         total_bytes_in_then = total_bytes_in_now;
         total_bytes_out_then = total_bytes_out_now;
@@ -80,7 +80,7 @@ static void bandwidth_step() {
 
 static void alive_beep_step() {
     static uint_fast32_t then = 0;
-    uint_fast32_t now = hw_get_milliseconds();
+    uint_fast32_t now = hw_get_time_ms();
     if (now % 15000 == 0 && now != then) {
         //cord_buzzer_queue_beep(500, 0.02, 0.2);
 
@@ -91,24 +91,24 @@ static void alive_beep_step() {
 static void send_general_info() {
     // TODO send this only when required
     static uint_fast32_t then = 0;
-    uint_fast32_t now = hw_get_milliseconds();
+    uint_fast32_t now = hw_get_time_ms();
     if (now % 1250 == 0 && now != then) { // TODO obviously this is too often
-      cord_write_packet(100, JSON({"c":"info","firmware-version":"%s","cordlib-version":"%s"})
-                        , hw_get_version(), CORDLIB_VERSION);
-      then = now;
+        cord_write_packet(100, JSON({"c":"info","firmware-version":"%s","cordlib-version":"%s"})
+        , hw_get_version(), CORDLIB_VERSION);
+        then = now;
     }
 }
 
 static void send_info_step() {
     static uint_fast32_t then = 0;
-    uint_fast32_t now = hw_get_milliseconds();
+    uint_fast32_t now = hw_get_time_ms();
     if (now % 50 == 0 && now != then) {
         switch ((now / 50) % 5) {
             case 0:
                 cord_write_packet(70, JSON({"c":"info","main-steps":%d}), steps_per_second);
                 break;
 #ifndef __SDCC
-                case 1:
+            case 1:
                 cord_write_packet(70, JSON({"c":"info","battery-status":%f}), (double) hw_get_battery_status());
                 break;
             case 2:

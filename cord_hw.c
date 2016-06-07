@@ -111,17 +111,17 @@ float hw_get_time() {
     return callback_get_time();
 }
 
-// hw_get_milliseconds
-uint_fast32_t (*callback_get_milliseconds)(void) = 0;
+// hw_get_time_ms
+uint_fast32_t (*callback_get_time_ms)(void) = 0;
 
-void set_callback_get_milliseconds(uint_fast32_t (*callback)(void) ) {
-    callback_get_milliseconds = callback;
+void set_callback_get_time_ms(uint_fast32_t (*callback)(void) ) {
+    callback_get_time_ms = callback;
 }
 
-uint_fast32_t hw_get_milliseconds() {
-    if (callback_get_milliseconds == 0)
+uint_fast32_t hw_get_time_ms() {
+    if (callback_get_time_ms == 0)
         return 0;
-    return callback_get_milliseconds();
+    return callback_get_time_ms();
 }
 
 // hw_get_battery_voltage

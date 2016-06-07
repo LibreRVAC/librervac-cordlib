@@ -36,7 +36,7 @@ static bool moving;
 static uint_fast32_t end;
 
 void cord_wheels_step() {
-    if (moving && hw_get_milliseconds() >= end) {
+    if (moving && hw_get_time_ms() >= end) {
         cord_stop_moving();
         cord_write_packet(60, JSON({"e":"move-finished"}));
     }
@@ -108,7 +108,7 @@ void cord_move(float length) {
         hw_set_motor_throttle(WHEEL_RIGHT, -0.5);
     }
     moving = true;
-    end = hw_get_milliseconds() + 200;
+    end = hw_get_time_ms() + 200;
     //distance_required += length;
 }
 
@@ -124,7 +124,7 @@ void cord_move_arc(float length, float radius) {
         }
     }
     moving = true;
-    end = hw_get_milliseconds() + 700 + (rand() % 500);
+    end = hw_get_time_ms() + 700 + (rand() % 500);
     //distance_required += length;
     // TODO arc
 }

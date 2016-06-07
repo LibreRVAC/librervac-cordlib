@@ -43,8 +43,8 @@ void set_callback_get_time(float (*callback)(void));
 float hw_get_time(); // TODO floats do not have enough precision
 
 // this is less universal but obviously it is much faster
-void set_callback_get_milliseconds(uint_fast32_t(*callback)(void));
-uint_fast32_t hw_get_milliseconds();
+void set_callback_get_time_ms(uint_fast32_t(*callback)(void));
+uint_fast32_t hw_get_time_ms();
 
 void set_callback_get_battery_voltage(float (*callback)(void));
 float hw_get_battery_voltage();
