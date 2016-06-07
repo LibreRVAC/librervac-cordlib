@@ -55,6 +55,10 @@ void hw_step() {
     callback_step();
 }
 
+#ifndef __SDCC
+#define __reentrant
+#endif
+
 // hw_toggle_interrupts
 void (*callback_toggle_interrupts)(bool) __reentrant = 0;
 

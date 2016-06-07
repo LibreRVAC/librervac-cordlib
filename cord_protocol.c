@@ -61,6 +61,7 @@ static inline bool eq(size_t index, const char *str) {
 // TODO or perhaps we should consider other protocol (i.e. non plaintext)
 
 static void process_beep() {
+#ifndef __SDCC
     float pitch    = 0;
     float duration = 0;
     float volume   = 0;
@@ -81,10 +82,12 @@ static void process_beep() {
         }
         // we will just skip JSMN_PRIMITIVE and possibly something else
     }
-    //cord_buzzer_queue_beep(pitch, duration, volume);
+    cord_buzzer_queue_beep(pitch, duration, volume);
+#endif
 }
 
 static void process_motor() {
+#ifdef __SDCC
     bool ok = false;
     cord_motor_type motor;
     float throttle = 0;
@@ -121,8 +124,9 @@ static void process_motor() {
         }
         // we will just skip JSMN_PRIMITIVE and possibly something else
     }
-    //if (ok) // TODO handle broken packets
-    //    cord_set_motor_throttle(motor, throttle);
+    if (ok) // TODO handle broken packets
+        cord_set_motor_throttle(motor, throttle);
+#endif
 }
 
 static void process_move() {
@@ -228,6 +232,7 @@ void cord_protocol_process_input() {
 // Also has to be outside of a function, otherwise we are polluting the stack
 char packet_buf[MAX_PACKET_SIZE];
 #endif
+
 void cord_write_packet(size_t max_packet_size, const char *format, ...) {
 #ifndef __SDCC
     char packet_buf[max_packet_size];
