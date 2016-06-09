@@ -23,7 +23,7 @@ use NativeCall;
 plan 6;
 
 sub set_callback_set_motor_utilization(&callback (int, num32))    is native(‘cordlib’, v1) {…}
-sub hw_set_motor_utilization(int $motor_type, num32 $utilization) is native(‘cordlib’, v1) {…}
+sub hw_set_motor_utilization(int32 $motor_type, num32 $utilization) is native(‘cordlib’, v1) {…}
 sub cord_set_speed_goal(num32 $speed)                             is native(‘cordlib’, v1) {…}
 sub cord_event_bumper(num32 $angle, num32 $uncertainty)           is native(‘cordlib’, v1) {…}
 

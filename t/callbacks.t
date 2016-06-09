@@ -46,8 +46,8 @@ ok $step > 1,   ‘step() was called multiple times’;
 
 
 
-sub set_callback_beep(&callback (num32, num32)) is native(‘cordlib’) {…}
-sub hw_beep(num32 $frequency, num32 $duration)  is native(‘cordlib’) {…}
+sub set_callback_beep(&callback (num32, num32)) is native(‘cordlib’, v1) {…}
+sub hw_beep(num32 $frequency, num32 $duration)  is native(‘cordlib’, v1) {…}
 
 my $freq = 0;
 my $duration = 0;
@@ -62,8 +62,8 @@ is-approx $duration, 0.25, ‘beep() callback works (duration)’;
 
 
 
-sub set_callback_get_time(&callback ( --> num32)) is native(‘cordlib’) {…}
-sub hw_get_time() returns num32                   is native(‘cordlib’) {…}
+sub set_callback_get_time(&callback ( --> num32)) is native(‘cordlib’, v1) {…}
+sub hw_get_time() returns num32                   is native(‘cordlib’, v1) {…}
 
 set_callback_get_time sub {
     return 4567.8.Num;
@@ -72,8 +72,8 @@ is-approx hw_get_time(), 4567.8.Num, ‘get_time() callback works’;
 
 
 
-sub set_callback_set_motor_utilization(&callback (int, num32))    is native(‘cordlib’) {…}
-sub hw_set_motor_utilization(int $motor_type, num32 $utilization) is native(‘cordlib’) {…}
+sub set_callback_set_motor_utilization(&callback (int32, num32))    is native(‘cordlib’, v1) {…}
+sub hw_set_motor_utilization(int32 $motor_type, num32 $utilization) is native(‘cordlib’, v1) {…}
 
 my $motor_type = 0;
 my $utilization = 0;
