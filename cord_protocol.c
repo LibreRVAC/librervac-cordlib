@@ -87,7 +87,7 @@ static void process_beep() {
 }
 
 static void process_motor() {
-#ifdef __SDCC
+#ifndef __SDCC
     bool ok = false;
     cord_motor_type motor;
     float throttle = 0;
